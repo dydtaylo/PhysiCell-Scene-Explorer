@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// Dylan Taylor
+// PhysiCell Scene Explorer
+
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Dylan Taylor
+// PhysiCell Scene Explorer
+
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections;
