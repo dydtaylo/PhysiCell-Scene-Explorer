@@ -177,8 +177,8 @@ public class FlyCamera : MonoBehaviour {
 				controller.GetComponent<Controller>().applyModificationZones();
 			}
 			
-			// use j to close the application
-			if(Input.GetKey(KeyCode.J)){
+			// use Esc to close the application
+			if(Input.GetKey(KeyCode.Escape)){
 				Application.Quit();
 			}
 		}

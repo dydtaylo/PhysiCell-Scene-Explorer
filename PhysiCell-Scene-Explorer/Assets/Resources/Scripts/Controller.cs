@@ -178,9 +178,6 @@ public class Controller : MonoBehaviour
 					GameObject g = Instantiate(cellPrefab, pos, Quaternion.identity);
 					float radius = (float) (Math.Pow(cellDataCol[4]/((4f/3f) * Math.PI), 1f/3f));
 					g.transform.localScale = new Vector3(radius, radius, radius);
-					if(g == null){
-						Debug.Log("ERROR at cell id: " + cellDataCol[0]);
-					}
 					
 					// place the cell in our cells array
 					cells[(int) cellDataCol[0]] = g;
