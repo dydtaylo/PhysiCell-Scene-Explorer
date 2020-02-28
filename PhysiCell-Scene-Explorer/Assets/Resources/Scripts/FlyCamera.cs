@@ -22,14 +22,16 @@ public class FlyCamera : MonoBehaviour {
     float maxShift = 1000.0f; //Maximum speed when holdin gshift
     float camSens = 0.25f; //How sensitive it with mouse
     private Vector3 lastMouse = new Vector3(255, 255, 255); //kind of in the middle of the screen, rather than at the top (play)
-    private float totalRun= 1.0f;
+    private Vector3 arrowOffset = new Vector3(0, 0, 0);
+	private float totalRun= 1.0f;
 	
 	public GameObject controller;
 	public GameObject canvas;
 	Text[] text;
 	bool inputOn;
-	bool paused;
-    
+	bool mouseMovementEnabled = true;
+    float zoomIncrement = 1;
+	
 	// Start is called before the first frame update
 	void Start(){
 		// enable input
@@ -42,7 +44,6 @@ public class FlyCamera : MonoBehaviour {
 			text[i++] = child.GetComponent<Text>();
 		}
 		
-		paused = true;
 		Cursor.visible = true;
 		
 		// tell the controller to load initial cells
@@ -53,9 +54,14 @@ public class FlyCamera : MonoBehaviour {
     void Update () {
 		if(inputOn){
 			Cursor.visible = false;
-			lastMouse = Input.mousePosition - lastMouse ;
-			lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0 );
-			lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x , transform.eulerAngles.y + lastMouse.y, 0);
+			if(mouseMovementEnabled){
+				lastMouse = Input.mousePosition - lastMouse ;
+				lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0 );
+				lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x + arrowOffset.x , transform.eulerAngles.y + lastMouse.y + arrowOffset.y, 0);
+			}
+			else{
+				lastMouse = lastMouse = new Vector3(transform.eulerAngles.x + arrowOffset.x , transform.eulerAngles.y + arrowOffset.y, 0);
+			}
 			transform.eulerAngles = lastMouse;
 			lastMouse =  Input.mousePosition;
 		}
@@ -89,6 +95,7 @@ public class FlyCamera : MonoBehaviour {
     private Vector3 GetBaseInput() { //returns the basic values, if it's 0 than it's not active.
         Vector3 p_Velocity = new Vector3();
 		if(inputOn){
+			// movement controls
 			if (Input.GetKey (KeyCode.W)){
 				p_Velocity += new Vector3(0, 0 , 1);
 			}
@@ -103,6 +110,30 @@ public class FlyCamera : MonoBehaviour {
 			}
 			
 			// parts I have added //
+			
+			// camera directional controls
+			arrowOffset = new Vector3(0, 0, 0);
+			if(Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.Z)){
+				arrowOffset.x -= 5;
+			}
+			if(Input.GetKey(KeyCode.LeftArrow)){
+				arrowOffset.y -= 5;
+			}
+			if(Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.Z)){
+				arrowOffset.x += 5;
+			}
+			if(Input.GetKey(KeyCode.RightArrow)){
+				arrowOffset.y += 5;
+			}
+			
+			// zoom controls
+			var scrollAmt = Input.GetAxis("Mouse ScrollWheel");
+			if (scrollAmt > 0 || (Input.GetKey(KeyCode.Z) && Input.GetKey(KeyCode.UpArrow))){
+				 GetComponent<Camera>().fieldOfView -= zoomIncrement;
+			}
+			else if (scrollAmt < 0 || (Input.GetKey(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow))){
+				 GetComponent<Camera>().fieldOfView += zoomIncrement;
+			}
 			
 			// space to ascend
 			if(Input.GetKey(KeyCode.Space)){
@@ -127,18 +158,12 @@ public class FlyCamera : MonoBehaviour {
 				controller.GetComponent<Controller>().saveScreeshot();
 			}
 			
-			/*
-			// p to toggle pause
+			
+			// p to toggle mouseMovementEnabled
 			if(Input.GetKey(KeyCode.P)){
-				if(paused){
-					Cursor.visible = false;
-				}
-				else{
-					Cursor.visible = true;
-				}
-				paused = !paused;
+				mouseMovementEnabled = !mouseMovementEnabled;
 			}
-			*/
+			
 			
 			// m to toggle modification zone visibility
 			if(Input.GetKey(KeyCode.M)){
