@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class PhysicellVariable
 {
-	bool isVector;
+	public bool isVector;
 	bool usesX;
     bool usesY;
 	bool usesZ;
@@ -26,6 +26,22 @@ public class PhysicellVariable
 		usesX = false;
 		usesY = false;
 		usesZ = false;
+	}
+	
+	public PhysicellVariable(float x){
+		data.x = x;
+		isVector = false;
+		usesX = true;
+		usesY = false;
+		usesZ = false;
+	}
+	
+	public PhysicellVariable(Vector3 data){
+		this.data = data;
+		isVector = true;
+		usesX = true;
+		usesY = true;
+		usesZ = true;
 	}
 	
 	// fill in the appropriate x, y, or z component of data vector 
@@ -50,5 +66,10 @@ public class PhysicellVariable
 	// return data vector
 	public Vector3 getData(){
 		return data;
+	}
+	
+	
+	public override string ToString(){
+		return "(" + data.x + ", " + data.y + ", " + data.z + ")";
 	}
 }

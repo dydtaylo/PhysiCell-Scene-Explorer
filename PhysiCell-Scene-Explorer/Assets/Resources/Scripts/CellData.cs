@@ -37,6 +37,12 @@ public class CellData : MonoBehaviour
 		return variables[variableName];
 	}
 	
+	// returns true if this cell has the variable
+	public bool hasVariable(string variable){
+		return variables.ContainsKey(variable);
+	}
+	
+	
 	public string printKeys(){
 		string keys = "";
 		foreach(string key in variables.Keys){
