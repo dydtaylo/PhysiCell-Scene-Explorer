@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3402460fd214f5c47ad2586801c8b94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellTypes: 
-  typeColor: []
+  cellTypes: 0100000002000000030000000400000000000000
+  typeColor:
+  - {r: 0.3221467, g: 0.7169812, b: 0.1657174, a: 1}
+  - {r: 0.1934407, g: 0.5943396, b: 0.5218615, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &5368026973473113194
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29,17 +34,17 @@ PrefabInstance:
     - target: {fileID: 4150271935706475001, guid: 1eb38b61bb84a4146a90e076a8d38de9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4691.8
       objectReference: {fileID: 0}
     - target: {fileID: 4150271935706475001, guid: 1eb38b61bb84a4146a90e076a8d38de9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4691.8
       objectReference: {fileID: 0}
     - target: {fileID: 4150271935706475001, guid: 1eb38b61bb84a4146a90e076a8d38de9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 4691.8
       objectReference: {fileID: 0}
     - target: {fileID: 4150271935706475001, guid: 1eb38b61bb84a4146a90e076a8d38de9,
         type: 3}
@@ -80,6 +85,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150271935706475001, guid: 1eb38b61bb84a4146a90e076a8d38de9,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150271935706475001, guid: 1eb38b61bb84a4146a90e076a8d38de9,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150271935706475001, guid: 1eb38b61bb84a4146a90e076a8d38de9,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7632735
       objectReference: {fileID: 0}
     - target: {fileID: 3379380544459865628, guid: 1eb38b61bb84a4146a90e076a8d38de9,
         type: 3}

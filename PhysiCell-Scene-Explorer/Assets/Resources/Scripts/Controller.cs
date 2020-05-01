@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour
 	public GameObject mainCamera;
 	public GameObject OriginObj;
 	public GameObject cellPrefab;
-	public GameObject modParser;
+	GameObject modParser;
 	public GameObject[] modificationZones;
 	
 	GameObject[] cells;
@@ -23,8 +23,18 @@ public class Controller : MonoBehaviour
 
 	int modificationZonesNeedUpdate;
 	
+	string originalPath;
+	public bool animating;
+	int numTicks;
+	int updateRate;
+	
     // Start is called before the first frame update
-    void Start(){}
+    void Start(){
+		modParser = GameObject.Find("ModParser");
+		numTicks = 0;
+		updateRate = 60;
+		// animating = false;
+	}
 	
 	// Update is called once per frame
     void Update(){
@@ -36,6 +46,30 @@ public class Controller : MonoBehaviour
 				applyModificationZones();
 			}
 		}
+		
+		numTicks++;
+		if(numTicks >= updateRate && originalPath != null && animating){
+			nextFrame();
+			numTicks = 0;
+		}
+	}
+	
+	public void nextFrame(){
+		// pick apart originalPath
+		int start = originalPath.IndexOf("output");
+		string front = originalPath.Substring(0, start + 6);
+		int id = Int32.Parse(originalPath.Substring(start + 6, 8));
+		string extension = originalPath.Substring(start + 14);
+		
+		string idString = "" + (id + 1);
+		while(idString.Length < 8){
+			idString = "0" + idString;
+		}
+		
+		// update originalPath and draw new cells
+		originalPath = front + idString + extension;
+		Debug.Log(originalPath);
+		loadCellsFromFile(originalPath);
 	}
 	
 	IEnumerator ShowLoadDialogCoroutine(string cont)
@@ -54,7 +88,13 @@ public class Controller : MonoBehaviour
 			
 			// continue to the specified function
 			if(cont.Equals("cells")){
-				loadCellsFromFile(FileBrowser.Result);
+				if(animating){
+					Debug.Log("Animate");
+					startAnimation(FileBrowser.Result);
+				}
+				else{
+					loadCellsFromFile(FileBrowser.Result);
+				}
 			}
 			else if(cont.Equals("save modification zones")){
 				loadModificationZonesFromFile(FileBrowser.Result);
@@ -99,10 +139,17 @@ public class Controller : MonoBehaviour
 		}
 	}
 	
+	// starts animation from the given path
+	public void startAnimation(string path){
+		originalPath = path;
+		animating = true;
+	}
+	
 	// invokes the coroutine that yields until the user selects a file
 	public void loadCells(){
 		StartCoroutine( ShowLoadDialogCoroutine("cells") );
 	}
+	
 	
 	// loads cells from the given file
 	public void loadCellsFromFile(string path){

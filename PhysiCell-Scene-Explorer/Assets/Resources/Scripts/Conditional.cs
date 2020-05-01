@@ -96,9 +96,10 @@ public class Conditional : MonoBehaviour, Modifier
 	public string writeToString(){
 		string serialization = "";
 		string serializationOfModifier = modifier.GetComponent<Modifier>().writeToString();
-		serialization += "Conditional " + (3 + serializationOfModifier.Split('\n').Length + 1);
+		serialization += "Conditional " + (3 + serializationOfModifier.Split('\n').Length) + "\n";
 		serialization += transform.position.x + " " + transform.position.y + " " + transform.position.z + "\n";
-		serialization += transform.localScale.x + " " + transform.localScale.y + " " + transform.localScale.z;
+		serialization += transform.localScale.x + " " + transform.localScale.y + " " + transform.localScale.z + "\n";
+		serialization += expression + "\n";
 		serialization += serializationOfModifier;
 		
 		return serialization;
@@ -122,8 +123,14 @@ public class Conditional : MonoBehaviour, Modifier
 			expression = lines[2];
 			
 			// construct the modifier
-			
-			// make a new class for loading modification zones
+			GameObject modParser = GameObject.Find("ModParser");
+			string modifierSerialization = "";
+			for(int i = 3; i < lines.Length; i++){
+				modifierSerialization += lines[i] + "\n";
+			}
+			modifier = modParser.GetComponent<ModParser>().loadModZone(modifierSerialization);
+			Renderer renderer = modifier.GetComponent<MeshRenderer>();
+			renderer.enabled = false;
 		}
 		catch(IndexOutOfRangeException ex){
 			Debug.Log(ex);

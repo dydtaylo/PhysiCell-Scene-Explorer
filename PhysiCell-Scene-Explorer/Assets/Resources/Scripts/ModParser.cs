@@ -10,6 +10,10 @@ using System;
 public class ModParser: MonoBehaviour
 {
 	GameObject[] modificationZones;
+	GameObject controller;
+	public void Start(){
+		controller = GameObject.Find("Controller");
+	}
 	
 	// parse the mod file at the specific file path
 	public void parseMod(string filepath){
@@ -31,18 +35,22 @@ public class ModParser: MonoBehaviour
 			
 			for(int i = 0; i < modificationZones.Length; i++){
 				// read and interpret the metadata of the next mod zone
+				serialization = "";
 				metadata = "";
 				metadata += sr.ReadLine();
+				serialization += metadata;
+				serialization += "\n";
 				
 				string[] pieces = metadata.Split(' ');
 				string type = pieces[0];
 				int linesToRead = Int32.Parse(pieces[1]);
+				/*
 				bool isReferenceModZone = (type[0] == '#');
 				if(isReferenceModZone){
 					type = type.Substring(1);
 				}
-				
-				serialization = "";
+				*/
+
 				// read in the actual data for the mod zone
 				for(int j = 0; j < linesToRead; j++){
 					serialization += sr.ReadLine();
@@ -51,10 +59,16 @@ public class ModParser: MonoBehaviour
 					}
 				}
 				
-				// place the mod zone in the reference table or modification zone array
-				currentModZone = Resources.Load<GameObject>("Modification Zones/" + type);
+				currentModZone = loadModZone(serialization);
+
+				modificationZones[numActiveModZones] = currentModZone;
+				numActiveModZones++;
+				
+				/*
+				// // place the mod zone modification zone array or do nothing (for now)
+				// currentModZone = Resources.Load<GameObject>("Modification Zones/" + type);
 				if(isReferenceModZone){
-					// put the zone in the reference table
+					// don't do anything (for now)
 				}
 				else{
 					// put the zone in the modification zones array
@@ -63,8 +77,9 @@ public class ModParser: MonoBehaviour
 					numActiveModZones++;
 				}
 			
-				// assemble the mod zone
-				currentModZone.GetComponent<Modifier>().loadFromString(serialization);
+				// // assemble the mod zone
+				// currentModZone.GetComponent<Modifier>().loadFromString(serialization);
+				*/
 			}
 		}
 		catch(FileNotFoundException fe){
@@ -97,6 +112,31 @@ public class ModParser: MonoBehaviour
 
 		modificationZones = new GameObject[1]{modZone};
 		*/
+	}
+	
+	public GameObject loadModZone(string serialization){
+		Debug.Log("in modParser\n" + serialization);
+		string[] lines = serialization.Split('\n');
+		string type = lines[0].Split(' ')[0];
+		serialization = "";
+		for(int i = 1; i < lines.Length; i++){
+			serialization += lines[i];
+			if(i != lines.Length - 1){
+				serialization += "\n";
+			}
+		}
+				
+		// load the proper modification zone
+		GameObject modZone = Resources.Load<GameObject>("Modification Zones/" + type);
+		Debug.Log("|" + type + "|" + modZone);
+		modZone = Instantiate(modZone);
+		// assemble the mod zone
+		modZone.GetComponent<Modifier>().loadFromString(serialization);
+		
+		// turn off the mod zone's visibility
+		controller.GetComponent<Controller>().disableModificationZoneVisibility();
+		
+		return modZone;
 	}
 	
 	public void writeMod(string filepath, GameObject[] modZones){

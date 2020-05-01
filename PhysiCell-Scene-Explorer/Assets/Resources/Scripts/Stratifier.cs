@@ -74,6 +74,7 @@ public class Stratifier : MonoBehaviour, Modifier
 	// parse a string in the serialization structure and set appropriate variables
 	public void loadFromString(string serialization){
 		try{
+			Debug.Log(serialization);
 			// divide the serialization by lines
 			string[] lines = serialization.Split('\n');
 			

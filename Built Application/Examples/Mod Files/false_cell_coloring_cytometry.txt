@@ -1,0 +1,65 @@
+8
+Conditional 7
+0 0 0
+5000 5000 5000
+(current_phase = 11 | current_phase = 13)
+Colorer 3
+0 0 0
+0 0 0
+0 0.75 0
+Conditional 7
+0 0 0
+5000 5000 5000
+current_phase = 12
+Colorer 3
+0 0 0
+0 0 0
+0.75 0.75 0
+Conditional 7
+0 0 0
+5000 5000 5000
+current_phase = 10
+Colorer 3
+0 0 0
+0 0 0
+0.75 0 0.75
+Conditional 7
+0 0 0
+5000 5000 5000
+current_phase = 5
+Colorer 3
+0 0 0
+0 0 0
+0.08 0.39 1
+Conditional 7
+0 0 0
+5000 5000 5000
+current_phase = 4 | current_phase = 6)
+Colorer 3
+0 0 0
+0 0 0
+0 0.16 1
+Conditional 7
+0 0 0
+5000 5000 5000
+(cycle_model != 6 & cycle_model != 2)
+Colorer 3
+0 0 0
+0 0 0
+0 0 0
+Conditional 7
+0 0 0
+5000 5000 5000
+((current_phase = 101 | current_phase = 102) | current_phase = 103)
+Colorer 3
+0 0 0
+0 0 0
+0.98 0.27 0.07
+Conditional 7
+0 0 0
+5000 5000 5000
+current_phase = 100
+Colorer 3
+0 0 0
+0 0 0
+.5 0 0

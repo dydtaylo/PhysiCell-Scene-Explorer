@@ -1,0 +1,19 @@
+2
+Conditional 7
+-1000 -1000 -1000
+5000 5000 5000
+calcified_fraction > 0
+Displacer 3
+0 0 0
+0 0 0
+1000 0 0
+Conditional 9
+-1000 -1000 -1000
+5000 5000 5000
+calcified_fraction > 0
+Stratifier 5
+-113 0 0
+1892.926 1747.376 1730.495
+0 -500 0
+0 1 0
+20 100

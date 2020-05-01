@@ -43,6 +43,9 @@ public class FlyCamera : MonoBehaviour {
 		foreach(Transform child in canvas.transform){
 			text[i++] = child.GetComponent<Text>();
 		}
+		foreach(Text t in text){
+			t.text = t.text.Replace("!n", "\n");
+		}
 		
 		Cursor.visible = true;
 		
